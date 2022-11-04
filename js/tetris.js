@@ -12,11 +12,161 @@ let downInterval;
 let tempMovingItem;
 
 const BLOCKS = {
+    square: [
+        [
+            [0, 0],
+            [0, 1],
+            [1, 0],
+            [1, 1],
+        ],
+        [
+            [0, 0],
+            [0, 1],
+            [1, 0],
+            [1, 1],
+        ],
+        [
+            [0, 0],
+            [0, 1],
+            [1, 0],
+            [1, 1],
+        ],
+        [
+            [0, 0],
+            [0, 1],
+            [1, 0],
+            [1, 1],
+        ],
+        ],
+    bar: [
+        [
+            [1, 0],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+        ],
+        [
+            [2, -1],
+            [2, 0],
+            [2, 1],
+            [2, 2],
+        ],
+        [
+            [1, 0],
+            [2, 0],
+            [3, 0],
+            [4, 0],
+        ],
+        [
+            [2, -1],
+            [2, 0],
+            [2, 1],
+            [2, 2],
+        ],
+        ],
     tree: [
-        [[0, 0], [0, 1], [1, 0], [1, 1]],
-        [],
-        [],
-        [],
+        [
+            [1, 0],
+            [0, 1],
+            [1, 1],
+            [2, 1],
+        ],
+        [
+            [1, 0],
+            [0, 1],
+            [1, 1],
+            [1, 2],
+        ],
+        [
+            [2, 1],
+            [0, 1],
+            [1, 1],
+            [1, 2],
+        ],
+        [
+            [2, 1],
+            [1, 2],
+            [1, 1],
+            [1, 0],
+        ],
+        ],
+    zee: [
+        [
+            [0, 0],
+            [1, 0],
+            [1, 1],
+            [2, 1],
+        ],
+        [
+            [0, 1],
+            [1, 0],
+            [1, 1],
+            [0, 2],
+        ],
+        [
+            [0, 1],
+            [1, 1],
+            [1, 2],
+            [2, 2],
+        ],
+        [
+            [2, 0],
+            [2, 1],
+            [1, 1],
+            [1, 2],
+        ],
+        ],
+    elLeft: [
+        [
+            [0, 0],
+            [0, 1],
+            [1, 1],
+            [2, 1],
+        ],
+        [
+            [1, 0],
+            [1, 1],
+            [1, 2],
+            [0, 2],
+        ],
+        [
+            [0, 1],
+            [1, 1],
+            [2, 1],
+            [2, 2],
+        ],
+        [
+            [1, 0],
+            [2, 0],
+            [1, 1],
+            [1, 2],
+        ],
+        ],
+    elRight: [
+        [
+            [1, 0],
+            [2, 0],
+            [1, 1],
+            [1, 2],
+        ],
+        [
+            [0, 0],
+            [0, 1],
+            [1, 1],
+            [2, 1],
+        ],
+        [
+            [0, 2],
+            [1, 0],
+            [1, 1],
+            [1, 2],
+        ],
+        [
+            [0, 1],
+            [1, 1],
+            [2, 1],
+            [2, 2],
+        ],
     ]
 }
 
@@ -26,7 +176,7 @@ const movingItem = {
     top: 0,
     left: 0,
 
-};
+}
 
 init()
 
@@ -52,25 +202,68 @@ function prependNewLine() {
 }
 
 
-function renderBlocks() {
+function renderBlocks(moveType="") {
     const { type, direction, top, left } = tempMovingItem;
     const movingBlocks = document.querySelectorAll(".moving");
-    movingBlocks.forEach(moving=> {
+    movingBlocks.forEach(moving => {
         moving.classList.remove(type, "moving");
     })
 
-    BLOCKS[type][direction].forEach(block => {
+    BLOCKS[type][direction].some(block => {
         const x = block[0] + left;
         const y = block[1] + top;
-        const target = playground.childNodes[y].childNodes[0].childNodes[x];
-        target.classList.add(type, "moving")
+        const target = playground.childNodes[y] ?
+            playground.childNodes[y].childNodes[0].childNodes[x]
+            : null;
+        const isEmpty = checkEmpty(target);
+        if (isEmpty) {
+            target.classList.add(type, "moving")
+        } else {
+            tempMovingItem = { ...movingItem }
+
+            setTimeout(() => {
+                renderBlocks();
+                if (moveType === "top") {
+                    seizeBlock();
+                }
+                //renderBlocks()
+            }, 0)
+            return true;
+        }
     })
+    movingItem.left = left;
+    movingItem.top = top;
+    movingItem.direction = direction;
+}
+
+function seizeBlock(){
+    const movingBlocks = document.querySelectorAll(".moving");
+    movingBlocks.forEach(moving => {
+        moving.classList.remove("moving");
+        moving.classList.add("seized");
+    })
+    generateNewBlock()
+}
+
+function generateNewBlock(){        //새로운 아이템 생성
+    movingItem.top = 0;
+    movingItem.left = 3;
+    movingItem.direction = 0;
+    tempMovingItem = {...movingItem}
+    renderBlocks();
+}
+
+function checkEmpty(target) {
+    if (!target || target.classList.contains("seized")) {
+        return false;
+    }
+    return true;
 }
 
 // moveBlock
 function moveBlock(moveType, amount) {
     tempMovingItem[moveType] += amount;
-    renderBlocks();
+    renderBlocks(moveType);
 }
 
 function changeDirection() {
