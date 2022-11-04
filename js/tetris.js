@@ -1,3 +1,4 @@
+
 //DOM
 const playground = document.querySelector(".playground > ul");
 
@@ -37,7 +38,7 @@ const BLOCKS = {
             [1, 0],
             [1, 1],
         ],
-        ],
+    ],
     bar: [
         [
             [1, 0],
@@ -63,7 +64,7 @@ const BLOCKS = {
             [2, 1],
             [2, 2],
         ],
-        ],
+    ],
     tree: [
         [
             [1, 0],
@@ -89,7 +90,7 @@ const BLOCKS = {
             [1, 1],
             [1, 0],
         ],
-        ],
+    ],
     zee: [
         [
             [0, 0],
@@ -115,7 +116,7 @@ const BLOCKS = {
             [1, 1],
             [1, 2],
         ],
-        ],
+    ],
     elLeft: [
         [
             [0, 0],
@@ -141,7 +142,7 @@ const BLOCKS = {
             [1, 1],
             [1, 2],
         ],
-        ],
+    ],
     elRight: [
         [
             [1, 0],
@@ -176,9 +177,9 @@ const movingItem = {
     top: 0,
     left: 0,
 
-}
+};
 
-init()
+init();
 
 // functions
 function init() {
@@ -187,7 +188,7 @@ function init() {
         prependNewLine()
     }
     renderBlocks()
-}
+};
 
 
 function prependNewLine() {
@@ -199,10 +200,10 @@ function prependNewLine() {
     }
     li.prepend(ul)
     playground.prepend(li)
-}
+};
 
 
-function renderBlocks(moveType="") {
+function renderBlocks(moveType = "") {
     const { type, direction, top, left } = tempMovingItem;
     const movingBlocks = document.querySelectorAll(".moving");
     movingBlocks.forEach(moving => {
@@ -234,37 +235,43 @@ function renderBlocks(moveType="") {
     movingItem.left = left;
     movingItem.top = top;
     movingItem.direction = direction;
-}
+};
 
-function seizeBlock(){
+function seizeBlock() {
     const movingBlocks = document.querySelectorAll(".moving");
     movingBlocks.forEach(moving => {
         moving.classList.remove("moving");
         moving.classList.add("seized");
     })
     generateNewBlock()
-}
+};
 
-function generateNewBlock(){        //새로운 아이템 생성
+function generateNewBlock() {
+    //새로운 아이템 생성
+    const blockArray = Object.entries(BLOCKS);
+    const randomIndex = Math.floor(Math.random() * blockArray.length)
+
+
+    movingItem.type = blockArray[randomIndex][0];
     movingItem.top = 0;
     movingItem.left = 3;
     movingItem.direction = 0;
-    tempMovingItem = {...movingItem}
+    tempMovingItem = { ...movingItem }
     renderBlocks();
-}
+};
 
 function checkEmpty(target) {
     if (!target || target.classList.contains("seized")) {
         return false;
     }
     return true;
-}
+};
 
 // moveBlock
 function moveBlock(moveType, amount) {
     tempMovingItem[moveType] += amount;
     renderBlocks(moveType);
-}
+};
 
 function changeDirection() {
     const currDirection = tempMovingItem.direction;
@@ -273,8 +280,7 @@ function changeDirection() {
         : (tempMovingItem.direction += 1);
 
     renderBlocks();
-}
-
+};
 
 //event handling
 document.addEventListener("keydown", (e) => {
