@@ -172,7 +172,7 @@ const BLOCKS = {
 }
 
 const movingItem = {
-    type: "tree",
+    type: "",
     direction: 0,
     top: 0,
     left: 0,
@@ -187,7 +187,7 @@ function init() {
     for (let i = 0; i < GAME_ROWS; i++) {
         prependNewLine()
     }
-    renderBlocks()
+    generateNewBlock()
 };
 
 
@@ -248,9 +248,15 @@ function seizeBlock() {
 
 function generateNewBlock() {
     //새로운 아이템 생성
+
+    clearInterval(downInterval);
+    downInterval = setInterval(() => {
+        moveBlock('top',1)
+    }, duration)
+    //0.5초마다 한칸씩 내려옴
+
     const blockArray = Object.entries(BLOCKS);
     const randomIndex = Math.floor(Math.random() * blockArray.length)
-
 
     movingItem.type = blockArray[randomIndex][0];
     movingItem.top = 0;
@@ -282,6 +288,13 @@ function changeDirection() {
     renderBlocks();
 };
 
+function dropBlock(){
+    clearInterval(downInterval);
+    downInterval = setInterval(()=>{
+        moveBlock("top",1)
+    }, 10)
+}
+
 //event handling
 document.addEventListener("keydown", (e) => {
     switch (e.keyCode) {
@@ -297,6 +310,9 @@ document.addEventListener("keydown", (e) => {
             break;
         case 38: // up
             changeDirection();
+            break;
+        case 32:
+            dropBlock()
             break;
         default:
             break;
