@@ -11,7 +11,7 @@
 
 # 구현 기능
 
-![image](https://user-images.githubusercontent.com/108124042/208451085-10bad0d1-9fef-4b7e-bd48-737582b32951.png)
+https://user-images.githubusercontent.com/108124042/208454715-45a6da2e-2b2b-4699-8775-48a49a81041b.mp4
 
 - 블럭 랜덤생성
 - 블럭 모양변경
