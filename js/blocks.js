@@ -1,4 +1,4 @@
-const BLOCKS = {
+export const BLOCKS = {
     square: [
         [
             [0, 0],
