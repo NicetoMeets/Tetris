@@ -10,6 +10,7 @@ ul {
 body {
     height: 100%;
     overflow: hidden;
+    background-color: #393939;
 }
 
 .game-text {
@@ -23,22 +24,31 @@ body {
     background: rgba(0,0,0,0.7);
     left: 0;
     top: 0;
-    color:#fff;
+    color: #cdcbcb;
     font-size: 50px;
 }
 
 .game-text > button {
     padding: 0.5rem 1rem;
-    color: #fff;
-    background: salmon;
+    color: #cdcbcb;
+    background: rgb(185, 81, 69);
     border: none;
     cursor: pointer;
+}
+
+.title {
+    text-align: center;
+    font-size: 25px;
+    margin-top: 1rem;
+    color: #cdcbcb;
 }
 
 .score {
     text-align: center;
     font-size: 36px;
+    margin-top: 1rem;
     margin-bottom: 2rem;
+    color: #cdcbcb;
 }
 
 .playground>ul {
@@ -64,25 +74,25 @@ body {
 }
 
 .square {
-    background: #2c82c9;
+    background: #1c6cad;
 }
 
 .bar {
-    background: salmon;
+    background: rgb(171, 61, 48);
 }
 
 .tree {
-    background: #67c23a;
+    background: #459120;
 }
 
 .zee {
-    background: #e6a23c;
+    background: #8d5b10;
 }
 
 .elLeft {
-    background: #8e44ad;
+    background: #4e1567;
 }
 
 .elRight {
-    background: #16a085;
+    background: #0a715c;
 }
