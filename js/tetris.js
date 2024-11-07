@@ -46,6 +46,31 @@ function prependNewLine() {
     playground.prepend(li)
 };
 
+function generateNewBlock() {
+    //새로운 아이템 생성
+
+    clearInterval(downInterval);
+    downInterval = setInterval(() => {
+        moveBlock("top",1)
+    }, duration)
+    //0.5초마다 한칸씩 내려옴
+
+    const blockArray = Object.entries(BLOCKS);
+    const randomIndex = Math.floor(Math.random() * blockArray.length)
+
+    movingItem.type = blockArray[randomIndex][0];
+    movingItem.top = 0;
+    movingItem.left = 3;
+    movingItem.direction = 0;
+    tempMovingItem = { ...movingItem }
+    renderBlocks();
+};
+
+// moveBlock
+function moveBlock(moveType, amount) {
+    tempMovingItem[moveType] += amount;
+    renderBlocks(moveType);
+};
 
 function renderBlocks(moveType = "") {
     const { type, direction, top, left } = tempMovingItem;
@@ -65,12 +90,12 @@ function renderBlocks(moveType = "") {
             target.classList.add(type, "moving")
         } else {
             tempMovingItem = { ...movingItem }
-            if(moveType === 'retry'){
+            if(moveType === "retry"){
                 clearInterval(downInterval)
                 showGameoverText()
             }
             setTimeout(() => {
-                renderBlocks('retry');
+                renderBlocks("retry");
                 if (moveType === "top") {
                     seizeBlock();
                 }
@@ -114,37 +139,11 @@ function checkMatch(){
     generateNewBlock()
 };
 
-function generateNewBlock() {
-    //새로운 아이템 생성
-
-    clearInterval(downInterval);
-    downInterval = setInterval(() => {
-        moveBlock('top',1)
-    }, duration)
-    //0.5초마다 한칸씩 내려옴
-
-    const blockArray = Object.entries(BLOCKS);
-    const randomIndex = Math.floor(Math.random() * blockArray.length)
-
-    movingItem.type = blockArray[randomIndex][0];
-    movingItem.top = 0;
-    movingItem.left = 3;
-    movingItem.direction = 0;
-    tempMovingItem = { ...movingItem }
-    renderBlocks();
-};
-
 function checkEmpty(target) {
     if (!target || target.classList.contains("seized")) {
         return false;
     }
     return true;
-};
-
-// moveBlock
-function moveBlock(moveType, amount) {
-    tempMovingItem[moveType] += amount;
-    renderBlocks(moveType);
 };
 
 function changeDirection() {
