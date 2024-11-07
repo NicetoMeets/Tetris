@@ -190,7 +190,9 @@ document.addEventListener("keydown", (e) => {
     }
 });
 
-restartButton.addEventListener("click", () =>{
+restartButton.addEventListener("click", () => {
+    score = 0;
+    scoreDisplay.innerText = score;
     playground.innerHTML= "";
     gameText.style.display = "none";
     init();
